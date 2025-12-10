@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\McpController;
+use App\Http\Controllers\MCPController;
 
-Route::post('/mcp/tools/invoice.create', [McpController::class, 'invoiceCreate']);
-Route::post('/mcp/tools/customer.find', [McpController::class, 'customerFind']);
+Route::post('/mcp/tools/invoice.create', [MCPController::class, 'invoiceCreate'])->name('invoice.create');
+Route::post('/mcp/tools/customer.find', [MCPController::class, 'customerFind'])->name('customer.find');
 

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Customer;
 
-class McpController extends Controller
+class MCPController extends Controller
 {
     public function invoiceCreate(Request $request)
     {
