@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-api
+    restart: unless-stopped
+    expose:
+      - "9000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - TZ=Asia/Kuala_Lumpur
+    volumes:
+      - .:/var/www/html
+    networks:
+      - mcp-network
+
+  db:
+    image: postgres:16
+    container_name: mcp-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=Asia/Kuala_Lumpur
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - mcp-network
+
+  nginx:
+    image: nginx:latest
+    container_name: mcp-nginx
+    ports:
+      - "1100:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - mcp-network
+
+volumes:
+  db_data:
+
+
+networks:
+  mcp-network:
+    driver: bridge
